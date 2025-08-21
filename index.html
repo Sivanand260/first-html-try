@@ -5,7 +5,6 @@
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Your styling here (same as before) */
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -96,7 +95,7 @@
 
   <div class="login-box">
     <h2>Login</h2>
-    <form>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
       <div class="form-group">
         <label for="username">Username or Email</label>
         <input type="text" id="username" name="username" required autocomplete="off" />
@@ -110,8 +109,8 @@
             id="password"
             name="password"
             required
-            pattern=".{8,}"
-            title="At least 8 characters"
+            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}"
+            title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
           />
           <span class="toggle-password" onclick="togglePassword()">Show</span>
         </div>
@@ -122,11 +121,11 @@
 
       <input type="submit" value="Login" />
 
-      <div class="note">Minimum 8 character password required</div>
+      <div class="note">
+        Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, and one number.
+      </div>
     </form>
   </div>
-
-  
 
   <script>
     function togglePassword() {
@@ -140,7 +139,24 @@
         toggleText.textContent = "Show";
       }
     }
-  </script><script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    function handleLogin(event) {
+      event.preventDefault(); // Prevent actual form submission
+
+      const form = document.getElementById("loginForm");
+
+      if (form.checkValidity()) {
+        alert("Login Success");
+        // Optionally redirect or reset the form:
+        // window.location.href = "dashboard.html";
+        // form.reset();
+      } else {
+        form.reportValidity(); // Show validation errors if any
+      }
+
+      return false;
+    }
+  </script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
-
